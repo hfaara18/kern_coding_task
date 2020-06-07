@@ -1,0 +1,75 @@
+<script type="text/javascript">
+  // creatnig a function to check for empty objects
+  function isEmpty(obj) {
+    for (var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+  }
+
+  // converting json data to array
+  var data = [];
+  var nucleotideData = {{ nucleotide_counts_json|safe }};
+  for (var a in nucleotideData) {
+    data.push([a, nucleotideData[a]]);
+  }
+
+  if (!isEmpty(nucleotideData)) {
+    var height = 240;
+    var width = 300;
+    var margin = 10;
+    var maxNucletideCountWeight = d3.max(data, function(d1) {return d1[1]})/ (height*0.9 - 2*margin)
+
+    var svg = d3.select(".nuclotide-count-graph").append("svg")
+      .attr("height", height)
+      .attr("width", width)
+      .style("border", "1px solid black")
+      .style('display', 'block')
+      .style('margin', '0 auto');
+
+    svg.selectAll("rect")
+        .data(data)
+        .enter().append("rect")
+            .attr("class", "bar")
+            .attr("height", function(d, i) {
+                              return d[1]/maxNucletideCountWeight})
+            .attr("width", "40px")
+            .attr("x", function(d, i) {return (i*60) + 25})
+            .attr("y", function(d, i) {
+                          return height - 2*margin - d[1]/maxNucletideCountWeight})
+            .style('fill', function(d, i) {
+              return '#'+Math.random().toString(16).substr(-6);
+            })
+            .style('stroke', 'black')
+            .style('stroke-width', 2);
+
+    svg.selectAll("text")
+        .data(data)
+        .enter().append("text")
+        .text(function(d) {return d[1]})
+            .attr("class", "text")
+            .attr("x", function(d, i) {return (i*60) + 36})
+            .attr("y", function(d) {return (height - 2 - 2*margin) - d[1]/maxNucletideCountWeight});
+
+
+    (function renderXAxis() {
+      var axisLength = width - 2*margin;
+      var xScale = d3.scaleOrdinal()
+                      .domain(["A", "C", "G", "T"])
+                      .range([36, 96, 156, 216]);
+
+      var xAxis = d3.axisBottom(xScale);
+
+      svg.append("g")
+          .attr("class", "x-axis")
+          .attr("transform", function() {
+            return "translate(" + margin + "," + (height - 2*margin) + ")";
+          })
+          .call(xAxis);
+
+      d3.selectAll("g.x-axis g.tick")
+        .append("line");
+    })();
+  }
+</script>

@@ -1,0 +1,55 @@
+{% extends 'coding_task/base.html' %}
+
+{% block content %}
+<div class="col-8 mt-5">
+  <h3 style="text-align:center;">Convert string to DNA templates</h3>
+  <form method='POST' class='form-inline justify-content-center mb-3'>
+    {% csrf_token %}
+    {% for field in string_form %}
+      <div class="mx-3">
+        {{ field }}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-outline-success">Convert</button>
+  </form>
+</div> <!-- col-8 -->
+
+<div class="container">
+  <div class="input-string-output" style="text-align:center;">
+    {% if processed_input_string %}
+      <h5>Output: {{ processed_input_string }}</h5>
+    {% endif %}
+  </div> <!-- input-string-output -->
+</div> <!-- container-->
+
+<div class="container">
+  <div class="nuclotide-count-graph">
+  </div>
+</div><!-- container -->
+
+<div class="col-8 mt-5">
+  <h3 style="text-align:center;">Convert DNA templates to string</h3>
+  <form method='POST' class='form-inline justify-content-center mb-3'>
+    {% csrf_token %}
+    {% for field in dna_template_form %}
+      <div class="mx-3">
+        {{ field }}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-outline-success">Convert</button>
+  </form>
+</div> <!-- col-8 -->
+
+<div class="container">
+  <div class="input-dna-template-output" style="text-align:center;">
+    {% if processed_input_dna_templates %}
+      <h5>Output: {{ processed_input_dna_templates }}</h5>
+    {% endif %}
+  </div>
+</div> <!-- container -->
+{% endblock content %}
+
+<!-- javascript code block to create bar chart -->
+{% block scripts %}
+  {% include 'converter/scripts.html' with nucleotide_counts_json=nucleotide_counts_json %}
+{% endblock scripts %}
