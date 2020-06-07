@@ -46,7 +46,8 @@ class Conversions(View):
                 nucleotide_counts_json = json.dumps(nucleotide_counts)
             except:
                 processed_input_string = 'The input string was invalid'
-            context.update({'processed_input_string': processed_input_string,
+            context.update({'input_string': input_string,
+                            'processed_input_string': processed_input_string,
                             'nucleotide_counts_json': nucleotide_counts_json})
         else:
             context.update({'processed_input_string': '',
@@ -62,7 +63,8 @@ class Conversions(View):
                 processed_input_dna_templates = decode(input_dna_templates)
             except:
                 processed_input_dna_templates = 'The input DNA template was invalid'
-            context.update({'processed_input_dna_templates': processed_input_dna_templates})
+            context.update({'input_dna_templates': input_dna_templates,
+                            'processed_input_dna_templates': processed_input_dna_templates})
         else:
             context.update({'processed_input_dna_templates': ''})
 

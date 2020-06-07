@@ -17,7 +17,7 @@
 <div class="container">
   <div class="input-string-output" style="text-align:center;">
     {% if processed_input_string %}
-      <h5>Output: {{ processed_input_string }}</h5>
+      <h5>Output from "{{ input_string }}" query: {{ processed_input_string }}</h5>
     {% endif %}
   </div> <!-- input-string-output -->
 </div> <!-- container-->
@@ -43,7 +43,8 @@
 <div class="container">
   <div class="input-dna-template-output" style="text-align:center;">
     {% if processed_input_dna_templates %}
-      <h5>Output: {{ processed_input_dna_templates }}</h5>
+      <h5>Output from "{{ input_dna_templates }}" query: {{ processed_input_dna_templates }}</h5>
+
     {% endif %}
   </div>
 </div> <!-- container -->
